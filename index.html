@@ -7,42 +7,47 @@
   <meta name="description" content="لوحة مالية مبسطة لمتابعة أكواد Foundation وMaster وCorporate وحساب الإيرادات والربحية بالريال السعودي." />
   <style>
     :root{
-      --bg:#f4f7fb; --panel:#fff; --text:#16233a; --muted:#748099; --border:#e7ebf2;
-      --navy:#1f2858; --navy2:#2d3979; --gold:#c9ab70; --green:#22a06b; --amber:#d99000; --red:#d64545;
+      --bg:#f6f8f9; --panel:#ffffff; --text:#55585d; --muted:#8a8d92; --border:#e4e7e9;
+      --navy:#44a7bc; --navy2:#3199b0; --gold:#a8aaad; --green:#44a7bc; --amber:#b88b3f; --red:#d45b5b;
+      --brand:#44a7bc; --brand-dark:#338fa3; --brand-gray:#88898e; --brand-soft:#eaf6f8;
       --shadow:0 12px 32px rgba(27,38,73,.08); --radius:20px;
     }
     *{box-sizing:border-box} body{margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}
     button,input,select{font:inherit} button{cursor:pointer}
-    .topbar{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:22px 24px;box-shadow:0 4px 16px rgba(16,28,73,.14)}
+    .topbar{background:linear-gradient(135deg,#ffffff,#f5fbfc);color:var(--brand-gray);padding:22px 24px;box-shadow:0 4px 18px rgba(68,167,188,.12);border-bottom:3px solid var(--brand)}
     .topbar-inner{max-width:1320px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-    .brand h1{margin:0;font-size:25px}.brand p{margin:6px 0 0;color:#d9dff8;font-size:13px}
-    .header-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:10px 14px;background:#fff;color:var(--navy);font-weight:700}.btn.secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)}
-    .container{max-width:1320px;margin:24px auto;padding:0 18px 40px}.note{background:#fff8e8;border:1px solid #f0ddb1;border-radius:14px;padding:12px 14px;color:#74531a;margin-bottom:18px;font-size:13px}
+    .brand-wrap{display:flex;align-items:center;gap:16px}.brand-logo{width:150px;height:90px;object-fit:contain;background:#fff;border-radius:16px;padding:6px;box-shadow:0 8px 24px rgba(68,167,188,.10)}
+    .brand h1{margin:0;font-size:25px;color:var(--brand-gray)}.brand h1::after{content:"";display:block;width:74px;height:4px;background:var(--brand);border-radius:99px;margin-top:9px}.brand p{margin:8px 0 0;color:var(--brand);font-size:13px;font-weight:700}
+    .header-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:10px 14px;background:var(--brand);color:#fff;font-weight:700}.btn.secondary{background:#fff;color:var(--brand-gray);border:1px solid #d9e8eb}.btn.secondary:hover{background:var(--brand-soft);color:var(--brand-dark)}
+    .container{max-width:1320px;margin:24px auto;padding:0 18px 40px}.note{background:var(--brand-soft);border:1px solid #cfe9ee;border-radius:14px;padding:12px 14px;color:#56666a;margin-bottom:18px;font-size:13px}
     .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px}.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .kpi{padding:18px}.kpi .label{color:var(--muted);font-size:13px}.kpi .value{font-size:25px;font-weight:800;margin-top:8px}.kpi .sub{font-size:12px;color:var(--muted);margin-top:5px}
     .types{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.type{padding:18px;position:relative;overflow:hidden}.type:before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:var(--accent)}
-    .type-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.type h2{margin:0;font-size:19px}.type .en{font-size:12px;color:var(--muted);margin-top:4px}.badge{border-radius:999px;padding:6px 9px;font-size:11px;font-weight:700;background:#eef2ff;color:var(--navy)}
-    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:16px}.mini{background:#f8faff;border:1px solid var(--border);border-radius:13px;padding:11px}.mini b{display:block;margin-top:5px;font-size:16px}.mini span{font-size:11px;color:var(--muted)}
+    .type-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.type h2{margin:0;font-size:19px}.type .en{font-size:12px;color:var(--muted);margin-top:4px}.badge{border-radius:999px;padding:6px 9px;font-size:11px;font-weight:700;background:var(--brand-soft);color:var(--brand-dark)}
+    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:16px}.mini{background:#fbfdfe;border:1px solid var(--border);border-radius:13px;padding:11px}.mini b{display:block;margin-top:5px;font-size:16px}.mini span{font-size:11px;color:var(--muted)}
     .progress{height:10px;background:#edf0f5;border-radius:999px;overflow:hidden;margin-top:14px}.progress i{height:100%;display:block;background:var(--accent);width:0;transition:.3s}.progress-label{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:6px}
     .margin-status{margin-top:14px;border-radius:13px;padding:10px 12px;background:#f7f8fb;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-left:6px}
-    .layout{display:grid;grid-template-columns:1.12fr .88fr;gap:16px;margin-top:16px}.section{padding:18px}.section h3{margin:0 0 15px;font-size:17px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;border:1px solid var(--border);border-radius:12px;padding:11px 12px;background:#fbfcff;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#aeb8df;box-shadow:0 0 0 3px rgba(64,81,156,.08)}
-    .calcbox{margin-top:12px;padding:13px;border-radius:14px;background:#f7f9ff;border:1px dashed #cbd3ef;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.calcbox div{font-size:11px;color:var(--muted)}.calcbox b{display:block;color:var(--text);font-size:14px;margin-top:3px}
-    .primary{width:100%;margin-top:12px;border:0;border-radius:13px;background:var(--navy);color:#fff;padding:12px;font-weight:800}.primary.editing{background:#9a6100}.cancel-edit{width:100%;margin-top:8px;border:1px solid var(--border);border-radius:13px;background:#fff;color:var(--text);padding:10px;font-weight:700;display:none}
+    .layout{display:grid;grid-template-columns:1.12fr .88fr;gap:16px;margin-top:16px}.section{padding:18px}.section h3{margin:0 0 15px;font-size:17px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;border:1px solid var(--border);border-radius:12px;padding:11px 12px;background:#fbfcff;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#7bc4d3;box-shadow:0 0 0 3px rgba(68,167,188,.10)}
+    .calcbox{margin-top:12px;padding:13px;border-radius:14px;background:#f5fbfc;border:1px dashed #b8dce3;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.calcbox div{font-size:11px;color:var(--muted)}.calcbox b{display:block;color:var(--text);font-size:14px;margin-top:3px}
+    .primary{width:100%;margin-top:12px;border:0;border-radius:13px;background:var(--brand);color:#fff;padding:12px;font-weight:800}.primary.editing{background:#9a6100}.cancel-edit{width:100%;margin-top:8px;border:1px solid var(--border);border-radius:13px;background:#fff;color:var(--text);padding:10px;font-weight:700;display:none}
     .target-table{width:100%;border-collapse:collapse;font-size:12px}.target-table th,.target-table td{padding:10px;border-bottom:1px solid var(--border);text-align:right}.target-table th{color:var(--muted);font-weight:700}.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:700}.ok{background:#eaf8f2;color:#14754f}.warn{background:#fff4df;color:#9a6100}.bad{background:#fdecec;color:#aa2e2e}
-    .bars{display:grid;gap:12px}.bar-row .bar-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}.bar{height:11px;background:#edf0f6;border-radius:999px;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,var(--navy),#5c69b7)}
-    .table-wrap{overflow:auto}.sales{width:100%;border-collapse:collapse;min-width:820px;font-size:12px}.sales th,.sales td{padding:10px;border-bottom:1px solid var(--border);white-space:nowrap;text-align:right}.sales th{color:var(--muted)}.row-actions{display:flex;gap:6px}.delete{border:0;background:#fff0f0;color:#b73333;border-radius:8px;padding:6px 8px}.edit{border:0;background:#eef2ff;color:var(--navy);border-radius:8px;padding:6px 8px}
+    .bars{display:grid;gap:12px}.bar-row .bar-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}.bar{height:11px;background:#edf0f6;border-radius:999px;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,var(--brand),#7dc8d6)}
+    .table-wrap{overflow:auto}.sales{width:100%;border-collapse:collapse;min-width:820px;font-size:12px}.sales th,.sales td{padding:10px;border-bottom:1px solid var(--border);white-space:nowrap;text-align:right}.sales th{color:var(--muted)}.row-actions{display:flex;gap:6px}.delete{border:0;background:#fff0f0;color:#b73333;border-radius:8px;padding:6px 8px}.edit{border:0;background:var(--brand-soft);color:var(--brand-dark);border-radius:8px;padding:6px 8px}
     .empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}.footer{margin-top:18px;color:var(--muted);font-size:11px;text-align:center}
     @media(max-width:1050px){.kpis{grid-template-columns:repeat(2,1fr)}.types{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.kpis .kpi:last-child{grid-column:1/-1}}
-    @media(max-width:620px){.kpis{grid-template-columns:1fr}.form-grid,.calcbox{grid-template-columns:1fr}.brand h1{font-size:20px}.container{padding:0 12px 28px}.topbar{padding:18px 14px}}
+    @media(max-width:620px){.kpis{grid-template-columns:1fr}.form-grid,.calcbox{grid-template-columns:1fr}.brand h1{font-size:20px}.brand-wrap{align-items:flex-start}.brand-logo{width:88px;height:62px}.container{padding:0 12px 28px}.topbar{padding:18px 14px}}
     @media print{.topbar .header-actions,.form-section,.delete{display:none!important}.container{max-width:none}.card{box-shadow:none}.topbar{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
   </style>
 </head>
 <body>
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
-      <h1>لوحة إدارة أكواد الاختبارات</h1>
-      <p>Exam Codes Financial Dashboard — Foundation • Master • Corporate</p>
+    <div class="brand-wrap">
+      <img class="brand-logo" src="assets/mohteref-logo.png" alt="شعار محترف">
+      <div class="brand">
+        <h1>نظام إدارة مبيعات أكواد محترف</h1>
+        <p>Mohteref Exam Codes Sales Management — Foundation • Master • Corporate</p>
+      </div>
     </div>
     <div class="header-actions">
       <button class="btn secondary" onclick="window.print()">طباعة / PDF</button>
@@ -109,9 +114,9 @@
 <script>
 const FX=3.75, TARGET=.30, VAT=.15;
 const types={
-  foundation:{nameAr:'الشهادات التأسيسية',nameEn:'Foundation Certifications',short:'Foundation',qty:50,costUsd:190,accent:'#22a06b',courses:['Sales - SA','Customer Service - CS','Leadership - LS','Business Communication - BC','Business Etiquette - BE']},
-  master:{nameAr:'الشهادات الاحترافية',nameEn:'Master Certifications',short:'Master',qty:100,costUsd:290,accent:'#40519c',courses:['Project Management - PM','Business Management - BM','Marketing - MKT','English Grammar for Business - EGB','Accounting and Budgeting - AB','Computer Technology Specialist - CTS']},
-  corporate:{nameAr:'الشهادات المؤسسية',nameEn:'Corporate Certifications',short:'Corporate',qty:50,costUsd:290,accent:'#8a58b5',courses:['Artificial Intelligence Generative - AIG','Corporate Governance Applications - CGA','Future Forecasting - FF','Human Resources Management - HRM','Happy Organization - H2O','Executive Secretary - ES','Data Analysis Using Power BI - PBI','Modern Project Management Methodologies - MPM','Digital Tools in Project Management - DPM','Digital Marketing - DMKT','Brand Strategy - BS','Negotiation & Closing Deals - NC','Customer Relationship Management - CRM']}
+  foundation:{nameAr:'الشهادات التأسيسية',nameEn:'Foundation Certifications',short:'Foundation',qty:50,costUsd:190,accent:'#44a7bc',courses:['Sales - SA','Customer Service - CS','Leadership - LS','Business Communication - BC','Business Etiquette - BE']},
+  master:{nameAr:'الشهادات الاحترافية',nameEn:'Master Certifications',short:'Master',qty:100,costUsd:290,accent:'#7f858b',courses:['Project Management - PM','Business Management - BM','Marketing - MKT','English Grammar for Business - EGB','Accounting and Budgeting - AB','Computer Technology Specialist - CTS']},
+  corporate:{nameAr:'الشهادات المؤسسية',nameEn:'Corporate Certifications',short:'Corporate',qty:50,costUsd:290,accent:'#76c4d2',courses:['Artificial Intelligence Generative - AIG','Corporate Governance Applications - CGA','Future Forecasting - FF','Human Resources Management - HRM','Happy Organization - H2O','Executive Secretary - ES','Data Analysis Using Power BI - PBI','Modern Project Management Methodologies - MPM','Digital Tools in Project Management - DPM','Digital Marketing - DMKT','Brand Strategy - BS','Negotiation & Closing Deals - NC','Customer Relationship Management - CRM']}
 };
 let sales=JSON.parse(localStorage.getItem('examCodeSalesV1')||'[]');
 let editIndex=null;
@@ -128,7 +133,7 @@ function statusText(m){return m>=.30?'ممتاز — فوق الهدف':m>=.20?'
 function render(){
   const allPurchaseCost=Object.values(types).reduce((a,t)=>a+t.qty*t.costUsd*FX,0),t=totalStats(),totalQty=Object.values(types).reduce((a,x)=>a+x.qty,0);
   totalCost.textContent=sar(allPurchaseCost); totalRevenue.textContent=sar(t.revenue); totalProfit.textContent=sar(t.profit); totalMargin.textContent=pct(t.margin); remainingCodes.textContent=Math.max(0,totalQty-t.sold);
-  typeCards.innerHTML=Object.entries(types).map(([k,x])=>{const s=typeStats(k), p=Math.min(100,(s.sold/x.qty)*100);return `<article class="card type" style="--accent:${x.accent}"><div class="type-head"><div><h2>${x.nameAr}</h2><div class="en">${x.nameEn}</div></div><span class="badge">${x.qty} كود</span></div><div class="metric-grid"><div class="mini"><span>تكلفة الكود</span><b>${sar(costSar(k))}</b></div><div class="mini"><span>إجمالي تكلفة الدفعة</span><b>${sar(x.qty*costSar(k))}</b></div><div class="mini"><span>المباع</span><b>${s.sold} كود</b></div><div class="mini"><span>المتبقي</span><b>${s.remaining} كود</b></div><div class="mini"><span>الإيرادات</span><b>${sar(s.revenue)}</b></div><div class="mini"><span>صافي الربح</span><b>${sar(s.profit)}</b></div></div><div class="progress"><i style="width:${p}%"></i></div><div class="progress-label"><span>نسبة التصريف ${p.toFixed(0)}%</span><span>${s.sold}/${x.qty}</span></div><div class="margin-status"><span><i class="dot" style="background:${s.margin>=.3?'#22a06b':s.margin>=.2?'#d99000':'#d64545'}"></i>${statusText(s.margin)}</span><b>${pct(s.margin)}</b></div></article>`}).join('');
+  typeCards.innerHTML=Object.entries(types).map(([k,x])=>{const s=typeStats(k), p=Math.min(100,(s.sold/x.qty)*100);return `<article class="card type" style="--accent:${x.accent}"><div class="type-head"><div><h2>${x.nameAr}</h2><div class="en">${x.nameEn}</div></div><span class="badge">${x.qty} كود</span></div><div class="metric-grid"><div class="mini"><span>تكلفة الكود</span><b>${sar(costSar(k))}</b></div><div class="mini"><span>إجمالي تكلفة الدفعة</span><b>${sar(x.qty*costSar(k))}</b></div><div class="mini"><span>المباع</span><b>${s.sold} كود</b></div><div class="mini"><span>المتبقي</span><b>${s.remaining} كود</b></div><div class="mini"><span>الإيرادات</span><b>${sar(s.revenue)}</b></div><div class="mini"><span>صافي الربح</span><b>${sar(s.profit)}</b></div></div><div class="progress"><i style="width:${p}%"></i></div><div class="progress-label"><span>نسبة التصريف ${p.toFixed(0)}%</span><span>${s.sold}/${x.qty}</span></div><div class="margin-status"><span><i class="dot" style="background:${s.margin>=.3?'#44a7bc':s.margin>=.2?'#b88b3f':'#d45b5b'}"></i>${statusText(s.margin)}</span><b>${pct(s.margin)}</b></div></article>`}).join('');
   minPriceRows.innerHTML=Object.entries(types).map(([k,x])=>`<tr><td><b>${x.short}</b><br><span style="color:var(--muted)">${x.nameAr}</span></td><td>${sar(costSar(k))}</td><td>${sar(minGross(k))}</td></tr>`).join('');
   salesBars.innerHTML=Object.entries(types).map(([k,x])=>{const s=typeStats(k),p=Math.min(100,s.sold/x.qty*100);return `<div class="bar-row"><div class="bar-top"><span>${x.short}</span><b>${s.sold} / ${x.qty}</b></div><div class="bar"><span style="width:${p}%"></span></div></div>`}).join('');
   const maxP=Math.max(1,...Object.keys(types).map(k=>Math.max(0,typeStats(k).profit)));
