@@ -27,10 +27,10 @@
     .margin-status{margin-top:14px;border-radius:13px;padding:10px 12px;background:#f7f8fb;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-left:6px}
     .layout{display:grid;grid-template-columns:1.12fr .88fr;gap:16px;margin-top:16px}.section{padding:18px}.section h3{margin:0 0 15px;font-size:17px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;border:1px solid var(--border);border-radius:12px;padding:11px 12px;background:#fbfcff;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#aeb8df;box-shadow:0 0 0 3px rgba(64,81,156,.08)}
     .calcbox{margin-top:12px;padding:13px;border-radius:14px;background:#f7f9ff;border:1px dashed #cbd3ef;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.calcbox div{font-size:11px;color:var(--muted)}.calcbox b{display:block;color:var(--text);font-size:14px;margin-top:3px}
-    .primary{width:100%;margin-top:12px;border:0;border-radius:13px;background:var(--navy);color:#fff;padding:12px;font-weight:800}
+    .primary{width:100%;margin-top:12px;border:0;border-radius:13px;background:var(--navy);color:#fff;padding:12px;font-weight:800}.primary.editing{background:#9a6100}.cancel-edit{width:100%;margin-top:8px;border:1px solid var(--border);border-radius:13px;background:#fff;color:var(--text);padding:10px;font-weight:700;display:none}
     .target-table{width:100%;border-collapse:collapse;font-size:12px}.target-table th,.target-table td{padding:10px;border-bottom:1px solid var(--border);text-align:right}.target-table th{color:var(--muted);font-weight:700}.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:700}.ok{background:#eaf8f2;color:#14754f}.warn{background:#fff4df;color:#9a6100}.bad{background:#fdecec;color:#aa2e2e}
     .bars{display:grid;gap:12px}.bar-row .bar-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}.bar{height:11px;background:#edf0f6;border-radius:999px;overflow:hidden}.bar span{height:100%;display:block;background:linear-gradient(90deg,var(--navy),#5c69b7)}
-    .table-wrap{overflow:auto}.sales{width:100%;border-collapse:collapse;min-width:820px;font-size:12px}.sales th,.sales td{padding:10px;border-bottom:1px solid var(--border);white-space:nowrap;text-align:right}.sales th{color:var(--muted)}.delete{border:0;background:#fff0f0;color:#b73333;border-radius:8px;padding:6px 8px}
+    .table-wrap{overflow:auto}.sales{width:100%;border-collapse:collapse;min-width:820px;font-size:12px}.sales th,.sales td{padding:10px;border-bottom:1px solid var(--border);white-space:nowrap;text-align:right}.sales th{color:var(--muted)}.row-actions{display:flex;gap:6px}.delete{border:0;background:#fff0f0;color:#b73333;border-radius:8px;padding:6px 8px}.edit{border:0;background:#eef2ff;color:var(--navy);border-radius:8px;padding:6px 8px}
     .empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}.footer{margin-top:18px;color:var(--muted);font-size:11px;text-align:center}
     @media(max-width:1050px){.kpis{grid-template-columns:repeat(2,1fr)}.types{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.kpis .kpi:last-child{grid-column:1/-1}}
     @media(max-width:620px){.kpis{grid-template-columns:1fr}.form-grid,.calcbox{grid-template-columns:1fr}.brand h1{font-size:20px}.container{padding:0 12px 28px}.topbar{padding:18px 14px}}
@@ -71,22 +71,24 @@
         <div class="field"><label>نوع الكود</label><select id="saleType" onchange="previewSale()"></select></div>
         <div class="field"><label>عدد الأكواد المباعة</label><input id="saleQty" type="number" min="1" value="1" oninput="previewSale()"></div>
         <div class="field"><label>سعر البيع للكود (ر.س)</label><input id="salePrice" type="number" min="0" placeholder="مثال: 1800" oninput="previewSale()"></div>
-        <div class="field"><label>طريقة الدفع</label><select id="payment" onchange="previewSale()"><option value="cash">عادي / تحويل</option><option value="tamara">تمارا (خصم 6%)</option></select></div>
+        <div class="field"><label>طريقة الدفع</label><select id="payment" onchange="previewSale()"><option value="full">دفع كامل المبلغ</option><option value="rewards">تقسيط مكافآت</option><option value="tamara">تقسيط تمارا — السعر المدخل هو السعر النهائي بعد الزيادة</option></select></div>
         <div class="field"><label>الضريبة 15%</label><select id="vat" onchange="previewSale()"><option value="inclusive">السعر شامل الضريبة</option><option value="none">لا تخصم الضريبة من هذا الحساب</option></select></div>
-        <div class="field"><label>ملاحظة (اختياري)</label><input id="saleNote" type="text" placeholder="اسم البرنامج أو الدفعة"></div>
+        <div class="field"><label>المادة / الشهادة (اختياري)</label><select id="saleCourse"><option value="">اختر المادة التي أخذها المستفيد</option></select></div>
+        <div class="field"><label>ملاحظة إضافية (اختياري)</label><input id="saleNote" type="text" placeholder="مثال: اسم المستفيد أو رقم الدفعة"></div>
       </div>
       <div class="calcbox">
         <div>تكلفة الكود<b id="pvCost">—</b></div>
         <div>أقل سعر لهامش 30%<b id="pvMin">—</b></div>
         <div>الهامش المتوقع<b id="pvMargin">—</b></div>
       </div>
-      <button class="primary" onclick="addSale()">حفظ عملية البيع</button>
+      <button id="saveBtn" class="primary" onclick="addSale()">حفظ عملية البيع</button>
+      <button id="cancelEditBtn" class="cancel-edit" onclick="cancelEdit()">إلغاء التعديل</button>
     </div>
 
     <div class="card section">
       <h3>الحد الأدنى لسعر البيع — هامش 30%</h3>
-      <table class="target-table"><thead><tr><th>النوع</th><th>تكلفة الكود</th><th>بدون تمارا</th><th>مع تمارا</th></tr></thead><tbody id="minPriceRows"></tbody></table>
-      <p style="font-size:11px;color:var(--muted);line-height:1.8;margin:12px 0 0">يُحسب الحد الأدنى على أساس صافي الإيراد بعد فصل ضريبة 15% من السعر الشامل، ومع تمارا يتم خصم 6% إضافية من صافي الإيراد.</p>
+      <table class="target-table"><thead><tr><th>النوع</th><th>تكلفة الكود</th><th>أقل سعر لهامش 30%</th></tr></thead><tbody id="minPriceRows"></tbody></table>
+      <p style="font-size:11px;color:var(--muted);line-height:1.8;margin:12px 0 0">تمارا لا تُخصم من الربح داخل النظام؛ عند البيع عبر تمارا أدخل سعر البيع بعد الزيادة التي تطبقونها على العميل.</p>
     </div>
   </section>
 
@@ -97,7 +99,7 @@
 
   <section class="card section" style="margin-top:16px">
     <h3>سجل المبيعات</h3>
-    <div class="table-wrap"><table class="sales"><thead><tr><th>التاريخ</th><th>النوع</th><th>الكمية</th><th>سعر الكود</th><th>الإيراد الصافي</th><th>التكلفة</th><th>الربح</th><th>الهامش</th><th>ملاحظة</th><th></th></tr></thead><tbody id="salesRows"></tbody></table></div>
+    <div class="table-wrap"><table class="sales"><thead><tr><th>التاريخ</th><th>النوع</th><th>المادة / الشهادة</th><th>طريقة الدفع</th><th>الكمية</th><th>سعر الكود</th><th>الإيراد الصافي</th><th>التكلفة</th><th>الربح</th><th>الهامش</th><th>ملاحظة</th><th>الإجراءات</th></tr></thead><tbody id="salesRows"></tbody></table></div>
     <div id="emptySales" class="empty">لا توجد عمليات بيع مسجلة حتى الآن.</div>
   </section>
 
@@ -105,18 +107,20 @@
 </main>
 
 <script>
-const FX=3.75, TARGET=.30, VAT=.15, TAMARA=.06;
+const FX=3.75, TARGET=.30, VAT=.15;
 const types={
-  foundation:{nameAr:'الشهادات التأسيسية',nameEn:'Foundation Certifications',short:'Foundation',qty:50,costUsd:190,accent:'#22a06b'},
-  master:{nameAr:'الشهادات الاحترافية',nameEn:'Master Certifications',short:'Master',qty:100,costUsd:290,accent:'#40519c'},
-  corporate:{nameAr:'الشهادات المؤسسية',nameEn:'Corporate Certifications',short:'Corporate',qty:50,costUsd:290,accent:'#8a58b5'}
+  foundation:{nameAr:'الشهادات التأسيسية',nameEn:'Foundation Certifications',short:'Foundation',qty:50,costUsd:190,accent:'#22a06b',courses:['Sales - SA','Customer Service - CS','Leadership - LS','Business Communication - BC','Business Etiquette - BE']},
+  master:{nameAr:'الشهادات الاحترافية',nameEn:'Master Certifications',short:'Master',qty:100,costUsd:290,accent:'#40519c',courses:['Project Management - PM','Business Management - BM','Marketing - MKT','English Grammar for Business - EGB','Accounting and Budgeting - AB','Computer Technology Specialist - CTS']},
+  corporate:{nameAr:'الشهادات المؤسسية',nameEn:'Corporate Certifications',short:'Corporate',qty:50,costUsd:290,accent:'#8a58b5',courses:['Artificial Intelligence Generative - AIG','Corporate Governance Applications - CGA','Future Forecasting - FF','Human Resources Management - HRM','Happy Organization - H2O','Executive Secretary - ES','Data Analysis Using Power BI - PBI','Modern Project Management Methodologies - MPM','Digital Tools in Project Management - DPM','Digital Marketing - DMKT','Brand Strategy - BS','Negotiation & Closing Deals - NC','Customer Relationship Management - CRM']}
 };
 let sales=JSON.parse(localStorage.getItem('examCodeSalesV1')||'[]');
+let editIndex=null;
+const paymentLabels={full:'دفع كامل المبلغ',rewards:'تقسيط مكافآت',tamara:'تقسيط تمارا',cash:'دفع كامل المبلغ'};
 const sar=n=>new Intl.NumberFormat('ar-SA',{maximumFractionDigits:2}).format(n)+' ر.س';
 const pct=n=>(isFinite(n)?(n*100).toFixed(1):'0.0')+'%';
 const costSar=k=>types[k].costUsd*FX;
-function netFromGross(gross,payment,vat){let net=gross;if(vat==='inclusive')net/=1.15;if(payment==='tamara')net*=.94;return net}
-function minGross(k,payment='cash'){const c=costSar(k);let factor=1/1.15;if(payment==='tamara')factor*=.94;return c/((1-TARGET)*factor)}
+function netFromGross(gross,payment,vat){let net=gross;if(vat==='inclusive')net/=1.15;return net}
+function minGross(k){const c=costSar(k);const factor=1/1.15;return c/((1-TARGET)*factor)}
 function typeStats(k){const rows=sales.filter(s=>s.type===k);const sold=rows.reduce((a,s)=>a+s.qty,0), revenue=rows.reduce((a,s)=>a+s.netRevenue,0), cost=rows.reduce((a,s)=>a+s.cost,0), profit=revenue-cost;return {sold,remaining:Math.max(0,types[k].qty-sold),revenue,cost,profit,margin:revenue?profit/revenue:0}}
 function totalStats(){let out={sold:0,revenue:0,cost:0,profit:0};Object.keys(types).forEach(k=>{const s=typeStats(k);out.sold+=s.sold;out.revenue+=s.revenue;out.cost+=s.cost;out.profit+=s.profit});out.margin=out.revenue?out.profit/out.revenue:0;return out}
 function statusClass(m){return m>=.30?'ok':m>=.20?'warn':'bad'}
@@ -125,18 +129,21 @@ function render(){
   const allPurchaseCost=Object.values(types).reduce((a,t)=>a+t.qty*t.costUsd*FX,0),t=totalStats(),totalQty=Object.values(types).reduce((a,x)=>a+x.qty,0);
   totalCost.textContent=sar(allPurchaseCost); totalRevenue.textContent=sar(t.revenue); totalProfit.textContent=sar(t.profit); totalMargin.textContent=pct(t.margin); remainingCodes.textContent=Math.max(0,totalQty-t.sold);
   typeCards.innerHTML=Object.entries(types).map(([k,x])=>{const s=typeStats(k), p=Math.min(100,(s.sold/x.qty)*100);return `<article class="card type" style="--accent:${x.accent}"><div class="type-head"><div><h2>${x.nameAr}</h2><div class="en">${x.nameEn}</div></div><span class="badge">${x.qty} كود</span></div><div class="metric-grid"><div class="mini"><span>تكلفة الكود</span><b>${sar(costSar(k))}</b></div><div class="mini"><span>إجمالي تكلفة الدفعة</span><b>${sar(x.qty*costSar(k))}</b></div><div class="mini"><span>المباع</span><b>${s.sold} كود</b></div><div class="mini"><span>المتبقي</span><b>${s.remaining} كود</b></div><div class="mini"><span>الإيرادات</span><b>${sar(s.revenue)}</b></div><div class="mini"><span>صافي الربح</span><b>${sar(s.profit)}</b></div></div><div class="progress"><i style="width:${p}%"></i></div><div class="progress-label"><span>نسبة التصريف ${p.toFixed(0)}%</span><span>${s.sold}/${x.qty}</span></div><div class="margin-status"><span><i class="dot" style="background:${s.margin>=.3?'#22a06b':s.margin>=.2?'#d99000':'#d64545'}"></i>${statusText(s.margin)}</span><b>${pct(s.margin)}</b></div></article>`}).join('');
-  minPriceRows.innerHTML=Object.entries(types).map(([k,x])=>`<tr><td><b>${x.short}</b><br><span style="color:var(--muted)">${x.nameAr}</span></td><td>${sar(costSar(k))}</td><td>${sar(minGross(k,'cash'))}</td><td>${sar(minGross(k,'tamara'))}</td></tr>`).join('');
+  minPriceRows.innerHTML=Object.entries(types).map(([k,x])=>`<tr><td><b>${x.short}</b><br><span style="color:var(--muted)">${x.nameAr}</span></td><td>${sar(costSar(k))}</td><td>${sar(minGross(k))}</td></tr>`).join('');
   salesBars.innerHTML=Object.entries(types).map(([k,x])=>{const s=typeStats(k),p=Math.min(100,s.sold/x.qty*100);return `<div class="bar-row"><div class="bar-top"><span>${x.short}</span><b>${s.sold} / ${x.qty}</b></div><div class="bar"><span style="width:${p}%"></span></div></div>`}).join('');
   const maxP=Math.max(1,...Object.keys(types).map(k=>Math.max(0,typeStats(k).profit)));
   profitBars.innerHTML=Object.entries(types).map(([k,x])=>{const s=typeStats(k),p=Math.max(0,s.profit)/maxP*100;return `<div class="bar-row"><div class="bar-top"><span>${x.short}</span><b>${sar(s.profit)} • ${pct(s.margin)}</b></div><div class="bar"><span style="width:${p}%"></span></div></div>`}).join('');
-  salesRows.innerHTML=sales.slice().reverse().map((s,ri)=>{const i=sales.length-1-ri;return `<tr><td>${s.date}</td><td>${types[s.type].short}</td><td>${s.qty}</td><td>${sar(s.price)}</td><td>${sar(s.netRevenue)}</td><td>${sar(s.cost)}</td><td>${sar(s.profit)}</td><td><span class="pill ${statusClass(s.margin)}">${pct(s.margin)}</span></td><td>${s.note||'—'}</td><td><button class="delete" onclick="deleteSale(${i})">حذف</button></td></tr>`}).join('');
+  salesRows.innerHTML=sales.slice().reverse().map((s,ri)=>{const i=sales.length-1-ri;return `<tr><td>${s.date}</td><td>${types[s.type].short}</td><td>${s.course||'—'}</td><td>${paymentLabels[s.payment]||s.payment||'—'}</td><td>${s.qty}</td><td>${sar(s.price)}</td><td>${sar(s.netRevenue)}</td><td>${sar(s.cost)}</td><td>${sar(s.profit)}</td><td><span class="pill ${statusClass(s.margin)}">${pct(s.margin)}</span></td><td>${s.note||'—'}</td><td><div class="row-actions"><button class="edit" onclick="editSale(${i})">تعديل</button><button class="delete" onclick="deleteSale(${i})">حذف</button></div></td></tr>`}).join('');
   emptySales.style.display=sales.length?'none':'block'; previewSale();
 }
-function previewSale(){const k=saleType.value||'foundation', qty=Math.max(1,+saleQty.value||1), price=+salePrice.value||0, paymentV=payment.value, vatV=vat.value;const c=costSar(k), gross=qty*price, net=netFromGross(gross,paymentV,vatV), cost=qty*c, margin=net?(net-cost)/net:0;pvCost.textContent=sar(c);pvMin.textContent=sar(vatV==='inclusive'?minGross(k,paymentV):c/(1-TARGET)/(paymentV==='tamara'?.94:1));pvMargin.textContent=pct(margin);pvMargin.style.color=margin>=.30?'var(--green)':margin>=.20?'var(--amber)':'var(--red)'}
-function addSale(){const k=saleType.value,qty=Math.floor(+saleQty.value||0),price=+salePrice.value||0;if(!qty||!price)return alert('أدخل عدد الأكواد وسعر البيع.');const st=typeStats(k);if(qty>st.remaining)return alert('الكمية أكبر من عدد الأكواد المتبقية.');const gross=qty*price, net=netFromGross(gross,payment.value,vat.value), cost=qty*costSar(k), profit=net-cost,margin=net?profit/net:0;if(margin<TARGET&&!confirm('هامش الربح أقل من 30%. هل تريد حفظ العملية رغم ذلك؟'))return;sales.push({type:k,qty,price,payment:payment.value,vat:vat.value,note:saleNote.value.trim(),date:new Date().toLocaleDateString('ar-SA'),netRevenue:net,cost,profit,margin});localStorage.setItem('examCodeSalesV1',JSON.stringify(sales));saleQty.value=1;salePrice.value='';saleNote.value='';render()}
-function deleteSale(i){if(confirm('حذف عملية البيع؟')){sales.splice(i,1);localStorage.setItem('examCodeSalesV1',JSON.stringify(sales));render()}}
+function updateCourseOptions(selected=''){const k=saleType.value||'foundation';saleCourse.innerHTML='<option value="">اختر المادة التي أخذها المستفيد</option>'+types[k].courses.map(c=>`<option value="${c}">${c}</option>`).join('');if(selected&&types[k].courses.includes(selected))saleCourse.value=selected}
+function previewSale(){const k=saleType.value||'foundation';updateCourseOptions(saleCourse.value);const qty=Math.max(1,+saleQty.value||1), price=+salePrice.value||0, paymentV=payment.value, vatV=vat.value;const c=costSar(k), gross=qty*price, net=netFromGross(gross,paymentV,vatV), cost=qty*c, margin=net?(net-cost)/net:0;pvCost.textContent=sar(c);pvMin.textContent=sar(vatV==='inclusive'?minGross(k):c/(1-TARGET));pvMargin.textContent=pct(margin);pvMargin.style.color=margin>=.30?'var(--green)':margin>=.20?'var(--amber)':'var(--red)'}
+function addSale(){const k=saleType.value,qty=Math.floor(+saleQty.value||0),price=+salePrice.value||0;if(!qty||!price)return alert('أدخل عدد الأكواد وسعر البيع.');const st=typeStats(k);const originalQty=editIndex!==null?sales[editIndex].qty:0;const originalType=editIndex!==null?sales[editIndex].type:null;const available=st.remaining+(originalType===k?originalQty:0);if(qty>available)return alert('الكمية أكبر من عدد الأكواد المتبقية.');const gross=qty*price, net=netFromGross(gross,payment.value,vat.value), cost=qty*costSar(k), profit=net-cost,margin=net?profit/net:0;if(margin<TARGET&&!confirm('هامش الربح أقل من 30%. هل تريد حفظ العملية رغم ذلك؟'))return;const row={type:k,qty,price,payment:payment.value,vat:vat.value,course:saleCourse.value,note:saleNote.value.trim(),date:editIndex!==null?sales[editIndex].date:new Date().toLocaleDateString('ar-SA'),netRevenue:net,cost,profit,margin};if(editIndex!==null){sales[editIndex]=row}else{sales.push(row)}localStorage.setItem('examCodeSalesV1',JSON.stringify(sales));cancelEdit(false);render()}
+function editSale(i){const s=sales[i];editIndex=i;saleType.value=s.type;saleQty.value=s.qty;salePrice.value=s.price;payment.value=s.payment==='cash'?'full':(s.payment||'full');vat.value=s.vat||'inclusive';updateCourseOptions(s.course||'');saleNote.value=s.note||'';saveBtn.textContent='حفظ التعديلات';saveBtn.classList.add('editing');cancelEditBtn.style.display='block';document.querySelector('.form-section').scrollIntoView({behavior:'smooth',block:'start'});previewSale()}
+function cancelEdit(clear=true){editIndex=null;saveBtn.textContent='حفظ عملية البيع';saveBtn.classList.remove('editing');cancelEditBtn.style.display='none';if(clear){saleType.value='foundation';saleQty.value=1;salePrice.value='';payment.value='full';vat.value='inclusive';saleNote.value='';updateCourseOptions('');previewSale()}else{saleQty.value=1;salePrice.value='';saleNote.value='';updateCourseOptions('')}}
+function deleteSale(i){if(confirm('حذف عملية البيع؟')){sales.splice(i,1);if(editIndex===i)cancelEdit();else if(editIndex!==null&&i<editIndex)editIndex--;localStorage.setItem('examCodeSalesV1',JSON.stringify(sales));render()}}
 function resetData(){if(confirm('سيتم حذف جميع عمليات البيع المحفوظة على هذا الجهاز. متابعة؟')){sales=[];localStorage.removeItem('examCodeSalesV1');render()}}
-saleType.innerHTML=Object.entries(types).map(([k,x])=>`<option value="${k}">${x.short} — ${x.nameAr}</option>`).join('');render();
+saleType.innerHTML=Object.entries(types).map(([k,x])=>`<option value="${k}">${x.short} — ${x.nameAr}</option>`).join('');updateCourseOptions();render();
 </script>
 </body>
 </html>
